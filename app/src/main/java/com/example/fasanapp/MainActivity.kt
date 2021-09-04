@@ -6,24 +6,16 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.viewModels
 import androidx.compose.material.*
-import androidx.compose.runtime.*
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
-import androidx.datastore.preferences.core.stringSetPreferencesKey
 import androidx.datastore.preferences.preferencesDataStore
 import androidx.lifecycle.lifecycleScope
-import com.example.fasanapp.PreferenceKeys.USER
+import com.example.fasanapp.util.PreferenceKeys.USER
 import com.example.fasanapp.models.User
 import com.example.fasanapp.mvvm.UserViewModel
-import com.example.fasanapp.ui.LoginScreen
 import com.example.fasanapp.ui.Navigator
 import com.example.fasanapp.ui.theme.FasanAppTheme
 import kotlinx.coroutines.flow.collect
-
-object PreferenceKeys {
-    val USER = stringSetPreferencesKey("user")
-}
 
 class MainActivity : ComponentActivity() {
     private val viewModel: UserViewModel by viewModels()
@@ -34,10 +26,10 @@ class MainActivity : ComponentActivity() {
 
     private fun useUser() {
         lifecycleScope.launchWhenStarted {
+            //userPreferencesDataStore.edit { it.clear() } //Logout
             userPreferencesDataStore.data.collect {
-                it[USER]?.let { usr ->
-                    viewModel.login(User(usr.first(), usr.last()))
-                }
+                val usr = it[USER] ?: setOf("", "")
+                viewModel.login(User(usr.first(), usr.last()))
             }
         }
     }
