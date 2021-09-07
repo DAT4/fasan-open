@@ -4,7 +4,7 @@
     "type": "APK",
     "kind": "Directory"
   },
-  "applicationId": "com.example.fasanapp",
+  "applicationId": "sh.mama.fasanapp",
   "variantName": "release",
   "elements": [
     {
